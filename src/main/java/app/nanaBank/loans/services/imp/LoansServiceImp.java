@@ -60,7 +60,7 @@ public class LoansServiceImp implements ILoansService {
     }
 
     @Override
-    public boolean deleteAccount(String mobileNumber) {
+    public boolean deleteLoan(String mobileNumber) {
 	Loans existingLoan = loansRepository.findByMobileNumber(mobileNumber)
 		.orElseThrow(() -> new ResourceNotFoundException("Loan", "mobile number: ", mobileNumber));
     loansRepository.deleteById(existingLoan.getLoadId());

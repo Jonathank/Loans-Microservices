@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.nanaBank.loans.constants.LoansConstants;
@@ -26,9 +27,9 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * @Tag is used to group and document the REST APIs 
- * for account management in NANA Bank.
+ * for loans management in NANA Bank.
  * * This controller provides endpoints for
- *  creating, retrieving, updating, and deleting customer accounts.
+ *  creating, retrieving, updating, and deleting customer loans.
  * 
  */
 @Tag(
@@ -62,6 +63,7 @@ public class LoansController {
     })
     @PostMapping("/create")
      public ResponseEntity<ResponseDTPO> createLoan(
+	     @Valid@RequestParam
 	     @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits")
 	     String mobileNumber
 	     ) {
@@ -90,6 +92,7 @@ public class LoansController {
 	        })
     @PostMapping("/fetch/LoanDetails")
     public ResponseEntity<LoansDTO> fetchLoanDetails(
+	    @Valid@RequestParam
 	  @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits")
 	  String mobileNumber
 	    ) {
@@ -118,7 +121,7 @@ public class LoansController {
 	    )
     })
     @PutMapping("/update")
-    public ResponseEntity<ResponseDTPO> updateAccountDetails(
+    public ResponseEntity<ResponseDTPO> updateLoanDetails(
 	    @Valid@RequestBody LoansDTO loansDTO
 	    ) {
 	boolean isUpdated = loansService.updateLoan(loansDTO);
@@ -156,11 +159,12 @@ public class LoansController {
     })
     @PostMapping("/delete")
     public ResponseEntity<ResponseDTPO> deleteLoan(
+	    @Valid@RequestParam
 	    @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits")
 	    String mobileNumber
 	    ) {
 	
-	boolean isDeleted = loansService.deleteAccount(mobileNumber);
+	boolean isDeleted = loansService.deleteLoan(mobileNumber);
 	if (isDeleted) {
 	    return ResponseEntity.status(HttpStatus.OK).body(
 		    new ResponseDTPO(LoansConstants.STATUS_CODE_SUCCESS,

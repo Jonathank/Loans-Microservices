@@ -10,6 +10,6 @@ public interface ILoansService {
 
     boolean updateLoan(LoansDTO loansDTO);
 
-    boolean deleteAccount(String mobileNumber);
+    boolean deleteLoan(String mobileNumber);
 
 }
